@@ -25,24 +25,25 @@ export class AuthService {
   
   login(user: UserConnect):void{
       this.http.post(`${environment.apiUrl}/security/login`, user).pipe(
-        map( (response: any) => {
-          console.log(response);
-          if (!JSON.parse(response.isFirstConnection.toLowerCase())) {
-              localStorage.setItem('token', response.token);
-              this._tokenSubject.next(response.token);
+        map( response => {
+          console.log(response)
+          // if (!JSON.parse(response.isFirstConnection.toLowerCase())) {
+          //     localStorage.setItem('token', response.token);
+          //     this._tokenSubject.next(response.token);
 
-              const decodedToken: any = jwt_decode(response.token);
-               
-              this.getUserById(+decodedToken.jti).pipe(
-                map(user => {
-                    console.log(user);
-                })
-              )
-          }else{
-            this.router.navigateByUrl('/auth/password-change');
-          }
+          //     const decodedToken: any = jwt_decode(response.token);
+          //     console.log(decodedToken);
+              
+          //     // this.getUserById(+decodedToken.jti).pipe(
+          //     //   map(user => {
+          //     //       console.log(user);
+          //     //   })
+          //     // ).subscribe()
+          // }else{
+          //   this.router.navigateByUrl('/auth/password-change');
+          // }
         })
-      )
+      ).subscribe()
   }
 
   getUserById(id: number):Observable<User>{
