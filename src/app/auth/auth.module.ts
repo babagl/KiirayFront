@@ -11,8 +11,6 @@ import { PasswordChangeComponent } from './components/password-change/password-c
 
 @NgModule({
   declarations: [
-    
-  
     AuthentificationComponent,
             SlidesComponent,
             LoginFormComponent,
