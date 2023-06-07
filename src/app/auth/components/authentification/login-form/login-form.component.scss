@@ -1,0 +1,27 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+
+*{
+    font-family: 'Playfair Display', serif !important;
+}
+mat-form-field{
+    width:  100%;
+}
+button{
+    width: 100%;
+}
+
+.log-form {
+    width: 70%;
+    margin: 12vh auto ;
+    border-radius: 20px;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .log-form{
+      width: 100%;
+    }
+  }

@@ -10,8 +10,6 @@ import { LoginFormComponent } from './components/authentification/login-form/log
 
 @NgModule({
   declarations: [
-    
-  
     AuthentificationComponent,
             SlidesComponent,
             LoginFormComponent
