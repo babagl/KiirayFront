@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private _tokenSubject: BehaviorSubject<string>;
-  
+
 
   constructor(private http: HttpClient, private router: Router) {
     this._tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token')!)
@@ -22,7 +22,7 @@ export class AuthService {
   get tokenValue(){
     return this._tokenSubject.value;
   }
-  
+
   login(user: UserConnect):void{
       this.http.post(`${environment.apiUrl}/security/login`, user).pipe(
         map( (response: any) => {
@@ -32,17 +32,17 @@ export class AuthService {
               this._tokenSubject.next(response.token);
 
               const decodedToken: any = jwt_decode(response.token);
-               
+
               this.getUserById(+decodedToken.jti).pipe(
                 map(user => {
                     console.log(user);
                 })
-              )
+              ).subscribe()
           }else{
             this.router.navigateByUrl('/auth/password-change');
           }
         })
-      )
+      ).subscribe()
   }
 
   getUserById(id: number):Observable<User>{
