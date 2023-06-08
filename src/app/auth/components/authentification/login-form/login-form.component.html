@@ -27,6 +27,7 @@
 
                       <button class="btn btn-success mt-4 py-3" type="button" (click)="Valider()">
                         Connexion
+                        <span *ngIf="loader$ | async" class="spinner-border spinner-border-sm ms-2 material-icons" role="status" aria-hidden="true"></span>
                     </button>
   </form>
 </section>
