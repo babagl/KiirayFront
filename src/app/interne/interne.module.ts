@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { InterneRoutingModule } from './interne-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AccueilComponent
+  ],
   imports: [
     CommonModule,
     InterneRoutingModule,

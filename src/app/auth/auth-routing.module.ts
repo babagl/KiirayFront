@@ -5,7 +5,7 @@ import { PasswordChangeComponent } from './components/password-change/password-c
 
 const routes: Routes = [
   {path : "login", component : AuthentificationComponent},
-  {path: 'password-change', component: PasswordChangeComponent},
+  {path: 'password-change/:id', component: PasswordChangeComponent},
   {path : "**" , pathMatch: "full" ,redirectTo : "login"}
 ];
 
