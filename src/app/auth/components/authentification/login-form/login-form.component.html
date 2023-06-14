@@ -12,7 +12,11 @@
     <!-- ###################    Formulaire de connection   #############################    -->
      <form [formGroup]="loginForm" class="log-form shadow px-4 py-3 ">
         <h1 class="text-center mb-4">Connection</h1>
-
+       <div *ngIf="msgError != null" class="mb-4 border border-dark">
+         <small style="color: red" class="text-center" >
+         {{msgError}}
+       </small>
+       </div>
                     <mat-form-field appearance="outline" color="warn" class="mb-4" >
                         <mat-label >Telephone/Matricule/Email </mat-label>
                         <input matInput required formControlName="login" type="text" name="identifiant">
@@ -29,5 +33,6 @@
                         Connexion
                         <span *ngIf="loader$ | async" class="spinner-border spinner-border-sm ms-2 material-icons" role="status" aria-hidden="true"></span>
                     </button>
-  </form>
+
+     </form>
 </section>

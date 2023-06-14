@@ -14,23 +14,33 @@ export class PasswordChangeComponent implements OnInit{
   constructor(private fb: FormBuilder, private auth: AuthService, private route: ActivatedRoute){}
 
   passwordForm!: FormGroup
+  isMatched!: Boolean
 
   passwordCtrl = new FormControl('', Validators.required)
   confirmCtrl = new FormControl('', Validators.required)
 
   loader$!: Observable<boolean>
-  
+  ngPassWordMatch(){ 
+      return 'Les deux mot de passe ne sont pas identiques'
+  }
 
   ngOnInit(): void {
+      this.isMatchedPasswords$(this.confirmCtrl)
       this.passwordForm = this.fb.group({
          password: this.passwordCtrl
       })
   }
 
-  isMatchedPasswords$(ctrl: FormControl):Observable<boolean>{
-    return ctrl.valueChanges.pipe(
-      map(value =>  value !== this.passwordCtrl.value)
-    );
+  private isMatchedPasswords$(ctrl: FormControl){
+    ctrl.valueChanges.pipe(
+      map(value =>  {
+        this.isMatched = value === this.passwordCtrl.value ? true : false
+        console.log(this.isMatched);
+        
+      })
+      
+    )
+    .subscribe();
   }
 
   onSubmit(){

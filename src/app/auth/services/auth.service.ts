@@ -15,6 +15,8 @@ export class AuthService {
   private _tokenSubject: BehaviorSubject<string>;
   private _userConnect: BehaviorSubject<any>;
   private _loading$ = new BehaviorSubject<boolean>(false);
+  errorText!: string
+  isError!: Observable<boolean>
 
   constructor(private http: HttpClient, private router: Router) {
     this._tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token')!);
@@ -29,10 +31,10 @@ export class AuthService {
   get tokenValue(){
     return this._tokenSubject.value;
   }
-  
+
   /**
-   * Retourne un objet de type {firstName: string, lastName: string} contenant 
-   * le prénom et le nom de utilisateur connecté 
+   * Retourne un objet de type {firstName: string, lastName: string} contenant
+   * le prénom et le nom de utilisateur connecté
    * @readonly
    * @memberof AuthService
    */
@@ -41,7 +43,7 @@ export class AuthService {
   }
 
   /**
-   * Observable de boolean permettant de lancer le loader 
+   * Observable de boolean permettant de lancer le loader
    * sur le formulaire de connexion
    * @readonly
    * @memberof AuthService
@@ -54,16 +56,17 @@ export class AuthService {
    * Methode d'authentification des utilisateurs
    * @param user un objet de type {login: string, password: string}
    */
-  login(user: UserConnect):void{
+  login(user: UserConnect){
       this._loading$.next(true);
-      this.http.post(`${environment.apiUrl}/security/login`, user).pipe(
+
+      return this.http.post(`${environment.apiUrl}/security/login`, user).pipe(
         map( (response: any) => {
           if (response.isFirstConnection == "false" ) {
 
             this._tokenSubject.next(response.token);
             localStorage.setItem('token', response.token);
 
-            const decodedToken: any = jwt_decode(response.token); 
+            const decodedToken: any = jwt_decode(response.token);
             this.getUserById(+(decodedToken.jti)).pipe(
               map(user => {
                 const userConnected = {firstName: user.prenom, nom: user.nom};
@@ -85,7 +88,9 @@ export class AuthService {
             }
           }
         })
-      ).subscribe()
+
+      )
+
   }
 
   /**
@@ -98,10 +103,10 @@ export class AuthService {
   }
 
   /**
-   * Permet de changer le mot de passe d'un utilisateur suite à sa première connexion 
+   * Permet de changer le mot de passe d'un utilisateur suite à sa première connexion
    * @param userPassword un objet de type { password: string } dont la valeur est le nouveau mot de passe
    * @param id id de l'utilisateur en question
-   * @returns 
+   * @returns
    */
   updatePassword(userPassword: {password: string}, id: number):Observable<any>{
       this._loading$.next(true);
@@ -110,6 +115,7 @@ export class AuthService {
               if (response.token) {
                   this.router.navigateByUrl('/auth/login');
                   this._loading$.next(false)
+                  this.isError = this._loading$
               }
           })
       )
